@@ -10,6 +10,13 @@ export class CognitoDemoStack extends Stack {
     constructor(scope: Construct, id: string, props: StackProps) {
         super(scope, id, props);
 
+        // trigger handler
+        const triggerLambda = new RustFunction(this, 'CognitoDemoTriggerLambda', {
+            // Path to the root directory.
+            manifestPath: join(__dirname, '..', '..', 'trigger_lambda/'),
+            timeout: Duration.minutes(5)
+        });
+
         // cognito
         const userPool = new aws_cognito.UserPool(this, "CognitoDemoPool", {
             userPoolName: "CognitoDemoPool",
@@ -49,7 +56,9 @@ export class CognitoDemoStack extends Stack {
             removalPolicy: RemovalPolicy.DESTROY,
             // passwordPolicy
             // advancedSecurityMode
-            // lambdaTriggers
+            lambdaTriggers: {
+                postConfirmation: triggerLambda
+            }
         })
 
         // IDP like Apple, facebook, and etc. can be added here.
@@ -561,7 +570,7 @@ export class CognitoDemoStack extends Stack {
         // apigateway lambda
         const apigatewayLambda = new RustFunction(this, 'CognitoDemoLambda', {
             // Path to the root directory.
-            manifestPath: join(__dirname, '..', '..', 'lambda/'),
+            manifestPath: join(__dirname, '..', '..', 'gateway_lambda/'),
             timeout: Duration.minutes(5)
         });
 
