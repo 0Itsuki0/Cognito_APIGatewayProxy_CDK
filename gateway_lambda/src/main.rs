@@ -55,7 +55,7 @@ fn decode_auth(headers: HeaderMap) -> anyhow::Result<Value> {
         .context("Authorization header is not valid UTF8.")?;
 
     let key = DecodingKey::from_secret(&[]);
-    let mut validation = Validation::new(Algorithm::HS256);
+    let mut validation = Validation::new(Algorithm::RS256);
     validation.insecure_disable_signature_validation();
     validation.validate_aud = false;
     validation.validate_exp = true;
