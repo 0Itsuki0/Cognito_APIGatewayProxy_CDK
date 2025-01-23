@@ -1,0 +1,17 @@
+[package]
+name = "lambda"
+version = "0.1.0"
+edition = "2021"
+
+[package.metadata.lambda.env]
+"TABLE_NAME"="SPADatabaseStack-SPATableFB30DBF5-U29CBTFG9A0E"
+
+
+[dependencies]
+anyhow = "1.0.82"
+tokio = { version = "1", features = ["macros"] }
+serde_json = "1.0.127"
+serde = { version = "1.0.209", features = ["derive"] }
+axum = "0.7.5"
+lambda_http = "0.13.0"
+jsonwebtoken = "9.3.0"
